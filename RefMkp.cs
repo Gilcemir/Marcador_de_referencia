@@ -54,7 +54,7 @@ namespace Marcador_de_referencia
                         aut = ASplitted[0];
 
                     string temp = TagSimples(aut, "surname") + TagSimples( ASplitted[ASplitted.Length-1], "fname");
-                    str+=temp+" ";
+                    str+=temp;
                 }
                 
 

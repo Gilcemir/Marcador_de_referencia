@@ -1,5 +1,6 @@
 ﻿using System;
 using Marcador_de_referencia;
+using System.IO;
 
 namespace Program
 {
@@ -8,7 +9,13 @@ namespace Program
     {
         static void Main(string[] args)
         {
-
+            
+            
+            
+            
+            
+            
+                      /*            
             string[] testes = new string[] {"Costa-Neto G, Fritsche-Neto R and Crossa J", "Friedman JH","Hahn S and Choi H","Pérandez P and de Los Campos G ", "Botta V, Louppe G, Geurts P & Wehenkel L"};
             string[] delimitadores = new string[] {", ", " and ", "&"};
             int i =1;
@@ -20,7 +27,7 @@ namespace Program
                 i++;
                 Console.WriteLine("---------");
             }
-
+*/
         }
     }
 

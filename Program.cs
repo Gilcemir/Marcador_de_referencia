@@ -9,25 +9,26 @@ namespace Program
     {
         static void Main(string[] args)
         {
+           string path = @"C:\workspace\Marcador_de_referencia\";
+            Console.WriteLine("Entre o nome do arquivo: ");
+            path+=Console.ReadLine();
+
+            List<string> referencias = new List<string>{};         
             
-            
-            
-            
-            
-            
-                      /*            
-            string[] testes = new string[] {"Costa-Neto G, Fritsche-Neto R and Crossa J", "Friedman JH","Hahn S and Choi H","Pérandez P and de Los Campos G ", "Botta V, Louppe G, Geurts P & Wehenkel L"};
-            string[] delimitadores = new string[] {", ", " and ", "&"};
-            int i =1;
-            foreach(string teste in testes)
+            using (StreamReader sr = File.OpenText(path))
             {
-                System.Console.WriteLine($"Array teste : {i}");
-                Console.WriteLine(teste + Environment.NewLine);
-                Console.WriteLine(RefMkp.TagAuthors(teste));
-                i++;
-                Console.WriteLine("---------");
+            string s;
+                while ((s = sr.ReadLine()) != null)
+                {
+                referencias.Add(s);
+                }
             }
-*/
+
+            foreach(string referencia in referencias)
+            {
+                Console.WriteLine(referencia);
+            }
+
         }
     }
 

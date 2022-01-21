@@ -2,13 +2,13 @@
 using System.IO;
 using System.Text.RegularExpressions;
 using Marcador_de_referencia;
+using System.Text;
 
 namespace Program
 {
     class Tela_Principal
     {
         //Essa função divide a referência em 3 partes: Autores, ano e o resto. Estou fazendo pouco a pouco, então por enquanto se
-
         // o programa só marcar os autores e data automático, já vai me economizar bastante tempo...
         private static void SplitRef(
             string referencia,
@@ -43,14 +43,13 @@ namespace Program
                     if (s.Trim().Length > 0) referencias.Add(s);
                 }
             }
-          
-            
+
             int i = 1;
             foreach (string referencia in referencias)
             {
-                string autores="";
-                string date="";
-                string body="";
+                string autores = "";
+                string date = "";
+                string body = "";
                 SplitRef(referencia, ref autores, ref date, ref body);
                 string temporaria =
                     RefMkp
@@ -64,10 +63,41 @@ namespace Program
                 i++;
             }
 
+            string pathOut = @"C:\workspace\Marcador_de_referencia\MyTest.txt";
+
+            try
+            {
+                // Create the file, or overwrite if the file exists.
+                using (FileStream fs = File.Create(pathOut))
+                {
+                    foreach (string referencia in referenciasTag)
+                    {
+                        Byte[] refer = new UTF8Encoding(true).GetBytes(referencia + Environment.NewLine);
+                        fs.Write(refer, 0 ,refer.Length);
+                    }
+                }
+
+                // Open the stream and read it back.
+                using (StreamReader sr = File.OpenText(pathOut))
+                {
+                    string s = "";
+                    while ((s = sr.ReadLine()) != null)
+                    {
+                        Console.WriteLine (s);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            /*
             foreach (string referencia in referenciasTag)
             {
                 Console.WriteLine (referencia);
             }
+            */
         }
     }
 }

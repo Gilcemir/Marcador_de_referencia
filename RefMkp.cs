@@ -56,7 +56,7 @@ namespace Marcador_de_referencia
         //recebe a string com autores e retorna os autores taggeados
         public static string TagAuthors(string authors)
         {
-            string str = "[authors role=\"nd\"][pauthor]";
+            string str = "[authors role=\"nd\"]";
             string[] delimitadores = new string[] { ", ", " and ", "&" };
 
             string[] autores =
@@ -81,14 +81,30 @@ namespace Marcador_de_referencia
                 else
                     aut = ASplitted[0];
 
-                string temp =
+                string temp =TagSimples(
                     TagSimples(aut, "surname") +
-                    TagSimples(ASplitted[ASplitted.Length - 1], "fname");
+                    TagSimples(ASplitted[ASplitted.Length - 1], "fname"), "pauthor");
                 str += temp;
             }
 
-            str += "[/pauthor][/authors]";
+            str += "[/authors]";
             return str;
         }
+
+        public static List<string> GetRefs(string path)
+        {
+            List<string> referencias = new List<string> { };
+            using (StreamReader sr = File.OpenText(path))
+            {
+                string s;
+                while ((s = sr.ReadLine()) != null)
+                {
+                    if (s.Trim().Length > 0) referencias.Add(s);
+                }
+            }
+            return referencias;
+
+        }
+
     }
 }

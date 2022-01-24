@@ -30,20 +30,16 @@ namespace Program
         static void Main(string[] args)
         {
             string path = @"C:\workspace\Marcador_de_referencia\";
+            string pathOut = @"C:\workspace\Marcador_de_referencia\MyTest.txt";
             Console.WriteLine("Entre o nome do arquivo: ");
             path += Console.ReadLine();
 
             List<string> referencias = new List<string> { };
             List<string> referenciasTag = new List<string> { };
-            using (StreamReader sr = File.OpenText(path))
-            {
-                string s;
-                while ((s = sr.ReadLine()) != null)
-                {
-                    if (s.Trim().Length > 0) referencias.Add(s);
-                }
-            }
 
+            referencias = RefMkp.GetRefs(path);
+            
+            
             int i = 1;
             foreach (string referencia in referencias)
             {
@@ -58,12 +54,12 @@ namespace Program
                         ) +
                         body,
                         i,
-                        "journal");
+                        "book");
                 referenciasTag.Add (temporaria);
                 i++;
             }
 
-            string pathOut = @"C:\workspace\Marcador_de_referencia\MyTest.txt";
+
 
             try
             {

@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Marcador_de_referencia
 {
@@ -56,7 +57,16 @@ namespace Marcador_de_referencia
         //recebe a string com autores e retorna os autores taggeados
         public static string TagAuthors(string authors)
         {
+
+            string pattern = @"(^[A-Z]\w+ [A-Z]+)";
+            Regex r = new Regex(pattern, RegexOptions.IgnoreCase);
+            string teste = r.IsMatch(authors)?"---tem!--":"--nao tem--";
+            
+
             string str = "[authors role=\"nd\"]";
+
+            if(r.IsMatch(authors))
+            {
             string[] delimitadores = new string[] { ", ", " and ", "&" };
 
             string[] autores =
@@ -80,13 +90,18 @@ namespace Marcador_de_referencia
                 }
                 else
                     aut = ASplitted[0];
-
+                //Aqui parece um pouco confuso, mas é uma sobreposição da Função TagSimples. Como a tag autor tem tag dentro de tag, a função TagSimples é passada como referência...
                 string temp =TagSimples(
                     TagSimples(aut, "surname") +
-                    TagSimples(ASplitted[ASplitted.Length - 1], "fname"), "pauthor");
+                    TagSimples(ASplitted[ASplitted.Length - 1], "fname"),
+                     "pauthor");
                 str += temp;
             }
-
+            }else
+            {
+                string temp = TagSimples(authors.Trim(),"cauthor");
+                str+=temp;
+            }
             str += "[/authors]";
             return str;
         }
@@ -105,6 +120,7 @@ namespace Marcador_de_referencia
             return referencias;
 
         }
+
 
     }
 }

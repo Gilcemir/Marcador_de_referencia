@@ -181,6 +181,9 @@ namespace Marcador_de_referencia
             string patternVolPages = @"(.*) (\d+) ?: ?(\d+(-\d+)?)";
             Regex rx = new Regex(patternVolPages, RegexOptions.IgnoreCase);
 
+            string patternExt = @"(.*) (\d+) ?p";
+            Regex ry = new Regex(patternExt, RegexOptions.IgnoreCase);
+
             if (rx.IsMatch(body))
             {
                 Match mx = rx.Match(body);
@@ -190,6 +193,13 @@ namespace Marcador_de_referencia
                     TagSimples(mx.Groups[2].ToString(), "volid") +
                     " " +
                     TagSimples(mx.Groups[3].ToString(), "pages");
+            }else if(ry.IsMatch(body))
+            {
+                Match my = ry.Match(body);
+                    body = my.Groups[1]
+                                            +" "
+                                            +TagSimples(my.Groups[2].ToString(), "extent")
+                                            +"p"; 
             }
 
             //-----

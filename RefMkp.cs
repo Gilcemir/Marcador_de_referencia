@@ -1,8 +1,8 @@
 using System;
-using System.Linq;
-using System.Text.RegularExpressions;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Marcador_de_referencia
 {
@@ -159,6 +159,7 @@ namespace Marcador_de_referencia
 
         public static string ReferenciaTagSimples(string referencia, int i)
         {
+            //declarei essas variáveis mesmo sem necessidade só para ficar fácil de entender
             string autores = "";
             string date = "";
             string body = "";
@@ -170,16 +171,33 @@ namespace Marcador_de_referencia
             date = m.Groups[2].ToString();
             body = m.Groups[3].ToString();
 
+            // ----------------
+            /*
+            Como não tem padrão para recortar as strings (são muitas as regras, como números, pontos, ponto e vírgula etc no nome do artigo, do livro etc), vou facilitar a marcação
+            o máximo possível, marcando tudo que tem padrão. Um exemplo é o volid/pages
+            */
+
+            //Esse pattern pega o volume/páginas nos formatos 1:11-11, 1 : 11-11, 1:11
+            string patternVolPages = @"(.*) (\d+) ?: ?(\d+(-\d+)?)";
+            Regex rx = new Regex(patternVolPages, RegexOptions.IgnoreCase);
+
+            if (rx.IsMatch(body))
+            {
+                Match mx = rx.Match(body);
+                body =
+                    mx.Groups[1] +
+                    " " +
+                    TagSimples(mx.Groups[2].ToString(), "volid") +
+                    " " +
+                    TagSimples(mx.Groups[3].ToString(), "pages");
+            }
+
+            //-----
             return RefMkp
-                        .TagRef((
-                        RefMkp.TagAuthors(autores) 
-                        + RefMkp.TagDate(date)
-                        ) +
-                        body,
-                        i,
-                        "book");
+                .TagRef((RefMkp.TagAuthors(autores) + RefMkp.TagDate(date)) +
+                body,
+                i,
+                "book");
         }
-
-
     }
 }

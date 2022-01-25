@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.IO;
+using System.Text;
 
 namespace Marcador_de_referencia
 {
@@ -57,50 +59,52 @@ namespace Marcador_de_referencia
         //recebe a string com autores e retorna os autores taggeados
         public static string TagAuthors(string authors)
         {
-
+            //Esse padrão verifica se o primeiro autor é uma pessoa, ou seja,
+            //começa com uma letra maiúscula, seguida de outras letras + espaço + uma ou mais letras MAIÚSCULAS.
+            //Se não tiver esse padrão, é uma referência com autor corporativo (cauthor)
             string pattern = @"(^[A-Z]\w+ [A-Z]+)";
             Regex r = new Regex(pattern, RegexOptions.IgnoreCase);
-            string teste = r.IsMatch(authors)?"---tem!--":"--nao tem--";
-            
-
             string str = "[authors role=\"nd\"]";
 
-            if(r.IsMatch(authors))
+            if (r.IsMatch(authors))
             {
-            string[] delimitadores = new string[] { ", ", " and ", "&" };
+                string[] delimitadores = new string[] { ", ", " and ", "&" };
 
-            string[] autores =
-                authors
-                    .Split(delimitadores, StringSplitOptions.RemoveEmptyEntries)
-                    .ToList()
-                    .Select(p => p.Trim())
-                    .ToArray();
+                string[] autores =
+                    authors
+                        .Split(delimitadores,
+                        StringSplitOptions.RemoveEmptyEntries)
+                        .ToList()
+                        .Select(p => p.Trim())
+                        .ToArray();
 
-            foreach (string autor in autores)
-            {
-                string aut = "";
-                string[] ASplitted = autor.Split(' ');
-
-                if (ASplitted.Length > 2)
+                foreach (string autor in autores)
                 {
-                    for (int i = 0; i < ASplitted.Length - 1; i++)
-                    aut += ASplitted[i] + " ";
+                    string aut = "";
+                    string[] ASplitted = autor.Split(' ');
 
-                    aut = aut.Trim();
+                    if (ASplitted.Length > 2)
+                    {
+                        for (int i = 0; i < ASplitted.Length - 1; i++)
+                        aut += ASplitted[i] + " ";
+
+                        aut = aut.Trim();
+                    }
+                    else
+                        aut = ASplitted[0];
+
+                    //Aqui parece um pouco confuso, mas é uma sobreposição da Função TagSimples. Como a tag autor tem tag dentro de tag, a função TagSimples é passada como referência...
+                    string temp =
+                        TagSimples(TagSimples(aut, "surname") +
+                        TagSimples(ASplitted[ASplitted.Length - 1], "fname"),
+                        "pauthor");
+                    str += temp;
                 }
-                else
-                    aut = ASplitted[0];
-                //Aqui parece um pouco confuso, mas é uma sobreposição da Função TagSimples. Como a tag autor tem tag dentro de tag, a função TagSimples é passada como referência...
-                string temp =TagSimples(
-                    TagSimples(aut, "surname") +
-                    TagSimples(ASplitted[ASplitted.Length - 1], "fname"),
-                     "pauthor");
-                str += temp;
             }
-            }else
+            else
             {
-                string temp = TagSimples(authors.Trim(),"cauthor");
-                str+=temp;
+                string temp = TagSimples(authors.Trim(), "cauthor");
+                str += temp;
             }
             str += "[/authors]";
             return str;
@@ -118,9 +122,39 @@ namespace Marcador_de_referencia
                 }
             }
             return referencias;
-
         }
 
+        public static void CreateFile(List<string> referenciasTag)
+        {
+            string pathOut = @"C:\workspace\Marcador_de_referencia\MyTest.txt";
+            try
+            {
+                // Create the file, or overwrite if the file exists.
+                using (FileStream fs = File.Create(pathOut))
+                {
+                    foreach (string referencia in referenciasTag)
+                    {
+                        Byte[] refer =
+                            new UTF8Encoding(true)
+                                .GetBytes(referencia + Environment.NewLine);
+                        fs.Write(refer, 0, refer.Length);
+                    }
+                }
 
+                // Open the stream and read it back.
+                using (StreamReader sr = File.OpenText(pathOut))
+                {
+                    string s = "";
+                    while ((s = sr.ReadLine()) != null)
+                    {
+                        Console.WriteLine (s);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
     }
 }

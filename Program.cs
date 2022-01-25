@@ -30,7 +30,7 @@ namespace Program
         static void Main(string[] args)
         {
             string path = @"C:\workspace\Marcador_de_referencia\";
-            string pathOut = @"C:\workspace\Marcador_de_referencia\MyTest.txt";
+
             Console.WriteLine("Entre o nome do arquivo: ");
             path += Console.ReadLine();
 
@@ -59,41 +59,9 @@ namespace Program
                 i++;
             }
 
+            RefMkp.CreateFile(referenciasTag);
 
-
-            try
-            {
-                // Create the file, or overwrite if the file exists.
-                using (FileStream fs = File.Create(pathOut))
-                {
-                    foreach (string referencia in referenciasTag)
-                    {
-                        Byte[] refer = new UTF8Encoding(true).GetBytes(referencia + Environment.NewLine);
-                        fs.Write(refer, 0 ,refer.Length);
-                    }
-                }
-
-                // Open the stream and read it back.
-                using (StreamReader sr = File.OpenText(pathOut))
-                {
-                    string s = "";
-                    while ((s = sr.ReadLine()) != null)
-                    {
-                        Console.WriteLine (s);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-
-            /*
-            foreach (string referencia in referenciasTag)
-            {
-                Console.WriteLine (referencia);
-            }
-            */
+ 
         }
     }
 }

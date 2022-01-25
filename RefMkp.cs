@@ -156,5 +156,30 @@ namespace Marcador_de_referencia
                 Console.WriteLine(ex.ToString());
             }
         }
+
+        public static string ReferenciaTagSimples(string referencia, int i)
+        {
+            string autores = "";
+            string date = "";
+            string body = "";
+            string pattern = @"(.*)\((\d{4})\)(.*)";
+            Regex r = new Regex(pattern, RegexOptions.IgnoreCase);
+            Match m = r.Match(referencia);
+
+            autores = m.Groups[1].ToString();
+            date = m.Groups[2].ToString();
+            body = m.Groups[3].ToString();
+
+            return RefMkp
+                        .TagRef((
+                        RefMkp.TagAuthors(autores) 
+                        + RefMkp.TagDate(date)
+                        ) +
+                        body,
+                        i,
+                        "book");
+        }
+
+
     }
 }

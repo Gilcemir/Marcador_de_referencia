@@ -124,9 +124,9 @@ namespace Marcador_de_referencia
             return referencias;
         }
 
-        public static void CreateFile(List<string> referenciasTag)
+        public static void CreateFile(List<string> referenciasTag, string input)
         {
-            string pathOut = @"C:\workspace\Marcador_de_referencia\MyTest.txt";
+            string pathOut = Directory.GetCurrentDirectory() + @"\refsTag"+input+".txt";
             try
             {
                 // Create the file, or overwrite if the file exists.
@@ -142,6 +142,7 @@ namespace Marcador_de_referencia
                 }
 
                 // Open the stream and read it back.
+                /* Se quiser ver o que está imprimindo, descomentar aqui
                 using (StreamReader sr = File.OpenText(pathOut))
                 {
                     string s = "";
@@ -150,6 +151,56 @@ namespace Marcador_de_referencia
                         Console.WriteLine (s);
                     }
                 }
+                */
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
+        public static void CreateFileInfo(List<string> referencias, string input)
+        {
+            string pathOut = Directory.GetCurrentDirectory() + @"\refs"+input+".txt";
+            try
+            {
+                // Create the file, or overwrite if the file exists.
+                using (FileStream fs = File.Create(pathOut))
+                {
+                    int i = 1;
+                    foreach (string referencia in referencias)
+                    {
+                        string autores = "";
+                        string date = "";
+                        string body = "";
+                        string pattern = @"(.*)\((\d{4})\)(.*)";
+                        Regex r = new Regex(pattern, RegexOptions.IgnoreCase);
+                        Match m = r.Match(referencia);
+
+                        autores = m.Groups[1].ToString();
+                        date = m.Groups[2].ToString();
+                        body = m.Groups[3].ToString();
+
+                        string str = "r" + i + " = " + autores + " | " + date;
+                        Byte[] refer =
+                            new UTF8Encoding(true)
+                                .GetBytes(str + Environment.NewLine);
+                        fs.Write(refer, 0, refer.Length);
+                        i++;
+                    }
+                }
+
+                // Open the stream and read it back.
+                /*
+                using (StreamReader sr = File.OpenText(pathOut))
+                {
+                    string s = "";
+                    while ((s = sr.ReadLine()) != null)
+                    {
+                        Console.WriteLine (s);
+                    }
+                }
+                */
             }
             catch (Exception ex)
             {
@@ -176,7 +227,6 @@ namespace Marcador_de_referencia
             Como não tem padrão para recortar as strings (são muitas as regras, como números, pontos, ponto e vírgula etc no nome do artigo, do livro etc), vou facilitar a marcação
             o máximo possível, marcando tudo que tem padrão. Um exemplo é o volid/pages
             */
-
             //Esse pattern pega o volume/páginas nos formatos 1:11-11, 1 : 11-11, 1:11
             string patternVolPages = @"(.*) (\d+) ?: ?(\d+(-\d+)?)";
             Regex rx = new Regex(patternVolPages, RegexOptions.IgnoreCase);
@@ -193,13 +243,15 @@ namespace Marcador_de_referencia
                     TagSimples(mx.Groups[2].ToString(), "volid") +
                     " " +
                     TagSimples(mx.Groups[3].ToString(), "pages");
-            }else if(ry.IsMatch(body))
+            }
+            else if (ry.IsMatch(body))
             {
                 Match my = ry.Match(body);
-                    body = my.Groups[1]
-                                            +" "
-                                            +TagSimples(my.Groups[2].ToString(), "extent")
-                                            +"p"; 
+                body =
+                    my.Groups[1] +
+                    " " +
+                    TagSimples(my.Groups[2].ToString(), "extent") +
+                    "p";
             }
 
             //-----

@@ -11,10 +11,13 @@ namespace Program
 
         static void Main(string[] args)
         {
-            string path = @"C:\workspace\Marcador_de_referencia\";
 
-            Console.WriteLine("Entre o nome do arquivo: ");
-            path += Console.ReadLine();
+            string path = Directory.GetCurrentDirectory();
+            path+= @"\";
+            Console.WriteLine("Entre o nome do arquivo: (não precisa colocar o .txt)");
+            string input = Console.ReadLine();
+            path+= input;
+            path+= ".txt";
 
             List<string> referencias = new List<string> { };
             List<string> referenciasTag = new List<string> { };
@@ -25,10 +28,11 @@ namespace Program
             int i = 1;
             foreach (string referencia in referencias)
             {
-               referenciasTag.Add (RefMkp.ReferenciaTagSimples(referencia, i));
+               referenciasTag.Add(RefMkp.ReferenciaTagSimples(referencia, i));
                i++; 
             }
-            RefMkp.CreateFile (referenciasTag);
+            RefMkp.CreateFile(referenciasTag, input);
+            RefMkp.CreateFileInfo(referencias, input);
         }
     }
 }

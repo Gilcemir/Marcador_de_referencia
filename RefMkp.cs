@@ -31,7 +31,7 @@ namespace Marcador_de_referencia
         {
             return "[ref id=\"r" +
             id +
-            "\" retype=\"" +
+            "\" reftype=\"" +
             tipo +
             "\"]" +
             str +

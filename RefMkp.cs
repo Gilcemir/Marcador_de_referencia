@@ -236,6 +236,9 @@ namespace Marcador_de_referencia
             string patterPages=@"(.*p.) ?(\d+(-\d+)?)";
             //Pattern pages p. 2313-313, p. 1111  ou p.111-11 
             Regex rz = new Regex(patterPages, RegexOptions.IgnoreCase);
+            //Pattern to match articles with ELocation
+            string patternElocation = @"(.*) (\d+) ?: ?(e\d+)";
+            Regex rw = new Regex(patternElocation, RegexOptions.IgnoreCase);
             if (rx.IsMatch(body))
             {
                 Match mx = rx.Match(body);
@@ -261,6 +264,14 @@ namespace Marcador_de_referencia
                 " "+
                 TagSimples(mz.Groups[2].ToString(), "pages");
 
+            }else if(rw.IsMatch(body))
+            {
+                Match mw = rw.Match(body);
+                body = mw.Groups[1] +
+                        " "+
+                        TagSimples(mw.Groups[2].ToString(), "volid") +
+                        ":"+
+                        TagSimples(mw.Groups[3].ToString(), "elocatid");
             }
 
             //-----

@@ -230,10 +230,12 @@ namespace Marcador_de_referencia
             //Esse pattern pega o volume/páginas nos formatos 1:11-11, 1 : 11-11, 1:11
             string patternVolPages = @"(.*) (\d+) ?: ?(\d+(-\d+)?)";
             Regex rx = new Regex(patternVolPages, RegexOptions.IgnoreCase);
-
+            //Pattern para marcar tag EXTENT 444p 444 p
             string patternExt = @"(.*) (\d+) ?p";
             Regex ry = new Regex(patternExt, RegexOptions.IgnoreCase);
-
+            string patterPages=@"(.*p.) ?(\d+(-\d+)?)";
+            //Pattern pages p. 2313-313, p. 1111  ou p.111-11 
+            Regex rz = new Regex(patterPages, RegexOptions.IgnoreCase);
             if (rx.IsMatch(body))
             {
                 Match mx = rx.Match(body);
@@ -241,7 +243,7 @@ namespace Marcador_de_referencia
                     mx.Groups[1] +
                     " " +
                     TagSimples(mx.Groups[2].ToString(), "volid") +
-                    " " +
+                    ":" +
                     TagSimples(mx.Groups[3].ToString(), "pages");
             }
             else if (ry.IsMatch(body))
@@ -252,6 +254,13 @@ namespace Marcador_de_referencia
                     " " +
                     TagSimples(my.Groups[2].ToString(), "extent") +
                     "p";
+            }else if(rz.IsMatch(body))
+            {
+                Match mz = rz.Match(body);
+                body = mz.Groups[1] + 
+                " "+
+                TagSimples(mz.Groups[2].ToString(), "pages");
+
             }
 
             //-----

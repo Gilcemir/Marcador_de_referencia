@@ -8,9 +8,7 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\GilziN^jj\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\Ceres-Gil\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
@@ -18,23 +16,16 @@
       "projectUniqueName": "C:\\workspace\\Marcador_de_referencia\\Marcador_de_referencia.csproj",
       "projectName": "Marcador_de_referencia",
       "projectPath": "C:\\workspace\\Marcador_de_referencia\\Marcador_de_referencia.csproj",
-      "packagesPath": "C:\\Users\\GilziN^jj\\.nuget\\packages\\",
+      "packagesPath": "C:\\Users\\Ceres-Gil\\.nuget\\packages\\",
       "outputPath": "C:\\workspace\\Marcador_de_referencia\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\GilziN^jj\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\Ceres-Gil\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

@@ -45,10 +45,11 @@ namespace Marcador_de_referencia
             Retorna [date dateiso="20110000" specyear="2011"]2011[/date]
 
         */
-        public static string TagDate(object year)
+        public static string TagDate(string year)
         {
+            string temp = year.Length==5?year.Substring(0, 4):year;
             return "[date dateiso=\"" +
-            year +
+             temp +
             "0000\" specyear=\"" +
             year +
             "\"]" +
@@ -173,7 +174,7 @@ namespace Marcador_de_referencia
                         string autores = "";
                         string date = "";
                         string body = "";
-                        string pattern = @"(.*)\((\d{4})\)(.*)";
+                        string pattern = @"(.*)\((\d{4}\w?)\)(.*)";
                         Regex r = new Regex(pattern, RegexOptions.IgnoreCase);
                         Match m = r.Match(referencia);
 
@@ -214,7 +215,7 @@ namespace Marcador_de_referencia
             string autores = "";
             string date = "";
             string body = "";
-            string pattern = @"(.*)\((\d{4})\)(.*)";
+            string pattern = @"(.*)\((\d{4}\w?)\)(.*)";
             Regex r = new Regex(pattern, RegexOptions.IgnoreCase);
             Match m = r.Match(referencia);
 

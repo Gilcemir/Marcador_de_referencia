@@ -23,7 +23,7 @@ Hsing TY, Paula NF and Paula RC (2016) Características dendrométricas, químic
 Kumar A, Sharma VK and Ginwal HS (2010) Sustained hybrid vigor in F1 hybrids of Eucalyptus torelliana F.v.Muell x E. citriodora Hook. World Applied Sciences Journal 11: 830-834.
 Lee DJ, Huth JR, Brawner JT and Dickinson GR (2009) Comparative performance of corymbia hybrids and parental species in subtropical Queensland and implications for breeding and deployment. Silvae Genetica 58: 205-212.
 Marco MA (1991) Seed source trials of Eucalyptus grandis in Argentina. Investigación Agraria. Sistemas y Recursos Forestales 1: 111-119.
-Nieto V, Giraldo-Charria D, Sarmiento M and Borralho N (2016) Effects of provenance and genetic variation on the growth and stem formation of Eucalyptus pellita in Colombia. Journal of Tropical Forest Science 28: 227-234.
+Ni-eto V, Giraldo-Charria D, Sarmiento M and Borralho N (2016) Effects of provenance and genetic variation on the growth and stem formation of Eucalyptus pellita in Colombia. Journal of Tropical Forest Science 28: 227-234.
 Ochieng JW, Shepherd M, Baverstock RP, Nikles G, Lee DJ and Henry RJ (2010) Two sympatric spotted gum species are molecularly homogeneous. Conservation Genetics 11: 45-56.
 Paludeto JGZ, Bush D, Estopa RA and Tambarussi EV (2020) Genetic control of diameter and bark percentage in spotted gum (Corymbia spp.): can we breed eucalypts with more wood and less bark? Southern Forests: a Journal of Forest Science 82: 86-93.
 Pegg GS, Nahrung H, Carnegie AJ, Wingfield MJ and Drenth A (2011) Spread and development of quambalaria shoot blight in spotted gum plantations. Plant Pathology 60: 1096-1106.
@@ -33,9 +33,10 @@ Self NM, Aitken EAB and Dale MD (2002) Susceptibility of provenances of spotted 
 Shepherd M, Henson M and Lee DJ (2012) Revisiting genetic structuring in spotted gums (genus Corymbia section Maculatae) focusing on C. maculata, an early diverged, insular lineage. Tree Genetics and Genomes 8: 137-147.
 Silva PHM, Brune A, Alvares CA, Amaral W Do, Moraes MLT, Grattapaglia D and Paula RC (2019) Selecting for stable and productive families of Eucalyptus urophylla across a country-wide range of climates in Brazil. Canadian Journal of Forest Research 49: 87-95.
 Silva PHM, Campoe OC, Paula RC and Lee DJ (2016) Seedling growth and physiological responses of sixteen eucalypt taxa under controlled water regime. Forests 7: 110.
-Silva PHM, Lee DJ, Miranda AC, Marino CL, Moraes MLT and Paula RC (2017) Sobrevivência e crescimento inicial de espécies de eucalipto em diferentes condições climáticas. Scientia Forestalis 45: 563-571.
+Silv-a PHM, Lee DJ, Miranda AC, Marino CL, Moraes MLT and Paula RC (2017) Sobrevivência e crescimento inicial de espécies de eucalipto em diferentes condições climáticas. Scientia Forestalis 45: 563-571.
 Silva PHM, Marco M, Alvares CA, Lee D, Moraes MLT and Paula RC (2019) Selection of Eucalyptus grandis families across contrasting environmental conditions. Crop Breeding and Applied Biotechnology 19: 47-54.
 Tambarussi EV, Pereira FB, Silva PHM, Lee D and Bush D (2018) Are tree breeders properly predicting genetic gain? A case study involving Corymbia species. Euphytica 214: 1-11.
 Trugilho PF (2009) Basic density and dry mass and lignin mass estimate in Eucalyptus wood species. Ciencia e Agrotecnologia 33: 1228-1239.
 Vencovsky R(1987) Tamanho efetivo populacional na coleta e preservação de germoplasma de espécies alógamas. Scientia forestalis 35: 79-84.
 Williams J and Woinarski J (1997) Eucalypt ecology: individuals to ecosystems. Cambridge University Press, Cambridge, 442p
+Aesa (2018) Geoprocessamento. Available at: http://siegrh.aesa.pb.gov.br:8080/aesa-sig/. Accessed on: October 26th, 2018. 

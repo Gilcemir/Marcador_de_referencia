@@ -63,7 +63,7 @@ namespace Marcador_de_referencia
             //Esse padrão verifica se o primeiro autor é uma pessoa, ou seja,
             //começa com uma letra maiúscula, seguida de outras letras + espaço + uma ou mais letras MAIÚSCULAS.
             //Se não tiver esse padrão, é uma referência com autor corporativo (cauthor)
-            string pattern = @"(^[A-Z]\w+ [A-Z]+)";
+            string pattern = @"(^[A-Z][\w-]+ [A-Z]+)";
             Regex r = new Regex(pattern, RegexOptions.IgnoreCase);
             string str = "[authors role=\"nd\"]";
 

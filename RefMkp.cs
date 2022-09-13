@@ -96,11 +96,10 @@ namespace Marcador_de_referencia
 
                     //Aqui parece um pouco confuso, mas é uma sobreposição da Função TagSimples. Como a tag autor tem tag dentro de tag, a função TagSimples é passada como referência...
                     string temp =
-                        TagSimples(TagSimples(aut, "surname") +
-                        TagSimples(ASplitted[ASplitted.Length - 1], "fname"),
-                        "pauthor");
-                    str += temp;
+                        TagSimples(TagSimples(aut, "surname") + " " + TagSimples(ASplitted[ASplitted.Length - 1], "fname"), "pauthor");
+                    str += temp+ ", ";
                 }
+                str = str.Substring(0, str.Length - 2);
             }
             else
             {

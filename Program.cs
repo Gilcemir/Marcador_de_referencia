@@ -14,8 +14,8 @@ namespace Program
 
             string path = Directory.GetCurrentDirectory();
             path+= @"\";
-            Console.WriteLine("Entre o nome do arquivo: (não precisa colocar o .txt)");
-            string input = Console.ReadLine();
+            
+            string input = GetInput();
             path+= input;
             path+= ".txt";
 
@@ -33,6 +33,18 @@ namespace Program
             }
             RefMkp.CreateFile(referenciasTag, input);
             RefMkp.CreateFileInfo(referencias, input);
+        }
+
+        private static string GetInput()
+        {
+            string? result = null;
+            while(string.IsNullOrWhiteSpace(result))
+            {
+                Console.WriteLine("Entre o nome do arquivo: (não precisa colocar o .txt)");
+                result = Console.ReadLine();
+            }
+
+            return result;
         }
     }
 }

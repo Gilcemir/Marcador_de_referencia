@@ -214,7 +214,7 @@ namespace Marcador_de_referencia
             string autores = "";
             string date = "";
             string body = "";
-            string pattern = @"(.*)\((\d{4}\w?)\)(.*)";
+            string pattern = @"(.*)\(\)(.*)";
             Regex r = new Regex(pattern, RegexOptions.IgnoreCase);
             Match m = r.Match(referencia);
 
@@ -227,6 +227,9 @@ namespace Marcador_de_referencia
             Como não tem padrão para recortar as strings (são muitas as regras, como números, pontos, ponto e vírgula etc no nome do artigo, do livro etc), vou facilitar a marcação
             o máximo possível, marcando tudo que tem padrão. Um exemplo é o volid/pages
             */
+            //Essa pattern pega tambem o centro do texto , arrtitle e source, pra já marcar TODO
+            string articlePattern = @"(.*)\((\d{4}\w?)\)(.*) (\d+) ?: ?(\d+(-\d+)?)";
+            Regex articleRegex = new Regex(articlePattern, RegexOptions.IgnoreCase);
             //Esse pattern pega o volume/páginas nos formatos 1:11-11, 1 : 11-11, 1:11
             string patternVolPages = @"(.*) (\d+) ?: ?(\d+(-\d+)?)";
             Regex rx = new Regex(patternVolPages, RegexOptions.IgnoreCase);

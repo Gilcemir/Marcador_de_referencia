@@ -47,7 +47,7 @@ namespace Marcador_de_referencia
         */
         public static string TagDate(string year)
         {
-            string temp = year.Length==5?year.Substring(0, 4):year;
+            string temp = year.Length == 5 ? year.Substring(0, 4) : year;
             return "[date dateiso=\"" +
              temp +
             "0000\" specyear=\"" +
@@ -87,7 +87,7 @@ namespace Marcador_de_referencia
                     if (ASplitted.Length > 2)
                     {
                         for (int i = 0; i < ASplitted.Length - 1; i++)
-                        aut += ASplitted[i] + " ";
+                            aut += ASplitted[i] + " ";
 
                         aut = aut.Trim();
                     }
@@ -97,7 +97,7 @@ namespace Marcador_de_referencia
                     //Aqui parece um pouco confuso, mas é uma sobreposição da Função TagSimples. Como a tag autor tem tag dentro de tag, a função TagSimples é passada como referência...
                     string temp =
                         TagSimples(TagSimples(aut, "surname") + " " + TagSimples(ASplitted[ASplitted.Length - 1], "fname"), "pauthor");
-                    str += temp+ ", ";
+                    str += temp + ", ";
                 }
                 str = str.Substring(0, str.Length - 2);
             }
@@ -110,23 +110,9 @@ namespace Marcador_de_referencia
             return str;
         }
 
-        public static List<string> GetRefs(string path)
-        {
-            List<string> referencias = new List<string> { };
-            using (StreamReader sr = File.OpenText(path))
-            {
-                string s;
-                while ((s = sr.ReadLine()) != null)
-                {
-                    if (s.Trim().Length > 0) referencias.Add(s);
-                }
-            }
-            return referencias;
-        }
-
         public static void CreateFile(List<string> referenciasTag, string input)
         {
-            string pathOut = Directory.GetCurrentDirectory() + @"\refsTag"+input+".txt";
+            string pathOut = Directory.GetCurrentDirectory() + @"\refsTag" + input + ".txt";
             try
             {
                 // Create the file, or overwrite if the file exists.
@@ -161,7 +147,7 @@ namespace Marcador_de_referencia
 
         public static void CreateFileInfo(List<string> referencias, string input)
         {
-            string pathOut = Directory.GetCurrentDirectory() + @"\refs"+input+".txt";
+            string pathOut = Directory.GetCurrentDirectory() + @"\refs" + input + ".txt";
             try
             {
                 // Create the file, or overwrite if the file exists.
@@ -211,10 +197,10 @@ namespace Marcador_de_referencia
         public static string ReferenciaTagSimples(string referencia, int i)
         {
             //declarei essas variáveis mesmo sem necessidade só para ficar fácil de entender
-            string autores = "";
-            string date = "";
-            string body = "";
-            string pattern = @"(.*)\(\)(.*)";
+            string autores;
+            string date;
+            string body;
+            string pattern = @"(.*)\((\d{4}\w?)\)(.*)";
             Regex r = new Regex(pattern, RegexOptions.IgnoreCase);
             Match m = r.Match(referencia);
 
@@ -222,29 +208,14 @@ namespace Marcador_de_referencia
             date = m.Groups[2].ToString();
             body = m.Groups[3].ToString();
 
-            // ----------------
-            /*
-            Como não tem padrão para recortar as strings (são muitas as regras, como números, pontos, ponto e vírgula etc no nome do artigo, do livro etc), vou facilitar a marcação
-            o máximo possível, marcando tudo que tem padrão. Um exemplo é o volid/pages
-            */
-            //Essa pattern pega tambem o centro do texto , arrtitle e source, pra já marcar TODO
-            string articlePattern = @"(.*)\((\d{4}\w?)\)(.*) (\d+) ?: ?(\d+(-\d+)?)";
-            Regex articleRegex = new Regex(articlePattern, RegexOptions.IgnoreCase);
-            //Esse pattern pega o volume/páginas nos formatos 1:11-11, 1 : 11-11, 1:11
-            string patternVolPages = @"(.*) (\d+) ?: ?(\d+(-\d+)?)";
-            Regex rx = new Regex(patternVolPages, RegexOptions.IgnoreCase);
-            //Pattern para marcar tag EXTENT 444p 444 p
-            string patternExt = @"(.*) (\d+) ?p";
-            Regex ry = new Regex(patternExt, RegexOptions.IgnoreCase);
-            string patterPages=@"(.*p.) ?(\d+(-\d+)?)";
-            //Pattern pages p. 2313-313, p. 1111  ou p.111-11 
-            Regex rz = new Regex(patterPages, RegexOptions.IgnoreCase);
-            //Pattern to match articles with ELocation
-            string patternElocation = @"(.*) (\d+) ?: ?(e\d+)";
-            Regex rw = new Regex(patternElocation, RegexOptions.IgnoreCase);
-            if (rx.IsMatch(body))
+            var articleVolPagesRgx = AppRegexes.ArticleVolPages();
+            var extentRgx = AppRegexes.Extent();
+            var pagesRgx = AppRegexes.Pages();
+            var eLocationRgx = AppRegexes.ELocation();
+
+            if (articleVolPagesRgx.IsMatch(body))
             {
-                Match mx = rx.Match(body);
+                Match mx = articleVolPagesRgx.Match(body);
                 body =
                     mx.Groups[1] +
                     " " +
@@ -252,34 +223,37 @@ namespace Marcador_de_referencia
                     ":" +
                     TagSimples(mx.Groups[3].ToString(), "pages");
             }
-            else if (ry.IsMatch(body))
+            else if (extentRgx.IsMatch(body))
             {
-                Match my = ry.Match(body);
+                Match my = extentRgx.Match(body);
                 body =
                     my.Groups[1] +
                     " " +
                     TagSimples(my.Groups[2].ToString(), "extent") +
                     "p";
-            }else if(rz.IsMatch(body))
+            }
+            else if (pagesRgx.IsMatch(body))
             {
-                Match mz = rz.Match(body);
-                body = mz.Groups[1] + 
-                " "+
+                Match mz = pagesRgx.Match(body);
+                body = mz.Groups[1] +
+                " " +
                 TagSimples(mz.Groups[2].ToString(), "pages");
 
-            }else if(rw.IsMatch(body))
+            }
+            else if (eLocationRgx.IsMatch(body))
             {
-                Match mw = rw.Match(body);
+                Match mw = eLocationRgx.Match(body);
                 body = mw.Groups[1] +
-                        " "+
+                        " " +
                         TagSimples(mw.Groups[2].ToString(), "volid") +
-                        ":"+
+                        ":" +
                         TagSimples(mw.Groups[3].ToString(), "elocatid");
             }
 
             //-----
             return RefMkp
-                .TagRef((RefMkp.TagAuthors(autores) + RefMkp.TagDate(date)) +
+                .TagRef(TagAuthors(autores) +
+                TagDate(date) +
                 body,
                 i,
                 "book");

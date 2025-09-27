@@ -22,7 +22,7 @@ namespace Program
             List<string> referencias = new List<string> { };
             List<string> referenciasTag = new List<string> { };
 
-            referencias = RefMkp.GetRefs(path);
+            referencias = FileUtils.GetRefs(path);
 
 
             int i = 1;

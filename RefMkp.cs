@@ -1,6 +1,3 @@
-using System;
-using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -49,6 +46,20 @@ namespace Marcador_de_referencia
                 + "\"]"
                 + year
                 + "[/date]";
+        }
+
+        public static string TagCited(string date, int year, int month, int day)
+        {
+            if (month < 11 && day < 11)
+            {
+                return "[cited dateiso=\"" + $"{year}0{month}0{day}" + "\"]" + date + "[/cited]";
+            }
+            if (month < 11)
+            {
+                return "[cited dateiso=\"" + $"{year}0{month}{day}" + "\"]" + date + "[/cited]";
+            }
+
+            return "[cited dateiso=\"" + $"{year}{month}{day}" + "\"]" + date + "[/cited]";
         }
 
         //recebe a string com autores e retorna os autores taggeados
@@ -157,18 +168,6 @@ namespace Marcador_de_referencia
                         i++;
                     }
                 }
-
-                // Open the stream and read it back.
-                /*
-                using (StreamReader sr = File.OpenText(pathOut))
-                {
-                    string s = "";
-                    while ((s = sr.ReadLine()) != null)
-                    {
-                        Console.WriteLine (s);
-                    }
-                }
-                */
             }
             catch (Exception ex)
             {

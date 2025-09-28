@@ -2,7 +2,7 @@ namespace Marcador_de_referencia.BibliographyHandlers
 {
     public abstract class AbstractHandler : IHandler
     {
-        private IHandler _next;
+        private IHandler? _next;
 
         public virtual BibliographyResult Handle(string body)
         {

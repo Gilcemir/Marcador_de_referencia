@@ -1,0 +1,7 @@
+r1 = ANA and CONAB  | 2020
+r2 = Bassinello PZ, Rocha MS and Cobucci RMA  | 2004
+r3 = Ferreira ME and Grattapaglia D  | 1998
+r4 = Lopes MCB, Rosso AF, Lopes SIG, Carmona OS, Leites A, Ulbrich A and Louzano LC  | 2004
+r5 = Pinheiro PV, Lopes Junior S, Oliveira JP, Guimarães CM, Stone LF, Madari BE, Filippi MCC, Pereira HS, Eifert EC, Silva JFA, Wendland A, Murillo Lobo Junior M and Ferreira EPB  | 2009
+r6 = Rangel PHN, Moura Neto FP, Morais OP, Schmidt AB, Fagundes PRR, Mendonça JÁ, Santiago CM, Rangel PN, Cutrim VA and Ferreira ME  | 2010
+r7 = Webster EP and Masson JA  | 2002

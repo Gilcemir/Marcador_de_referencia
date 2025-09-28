@@ -1,35 +1,28 @@
-﻿using System;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
-using Marcador_de_referencia;
+﻿using Marcador_de_referencia;
 
 namespace Program
 {
     class Tela_Principal
     {
-
         static void Main(string[] args)
         {
-
+            var refTagger = new RefTagger();
             string path = Directory.GetCurrentDirectory();
-            path+= @"\";
-            
-            string input = GetInput();
-            path+= input;
-            path+= ".txt";
+            path += @"\";
 
-            List<string> referencias = new List<string> { };
+            string input = GetInput();
+            path += input;
+            path += ".txt";
+
             List<string> referenciasTag = new List<string> { };
 
-            referencias = FileUtils.GetRefs(path);
-
+            var referencias = FileUtils.GetRefs(path);
 
             int i = 1;
             foreach (string referencia in referencias)
             {
-               referenciasTag.Add(RefMkp.ReferenciaTagSimples(referencia, i));
-               i++; 
+                referenciasTag.Add(refTagger.TagReference(referencia, i));
+                i++;
             }
             RefMkp.CreateFile(referenciasTag, input);
             RefMkp.CreateFileInfo(referencias, input);
@@ -38,7 +31,7 @@ namespace Program
         private static string GetInput()
         {
             string? result = null;
-            while(string.IsNullOrWhiteSpace(result))
+            while (string.IsNullOrWhiteSpace(result))
             {
                 Console.WriteLine("Entre o nome do arquivo: (não precisa colocar o .txt)");
                 result = Console.ReadLine();

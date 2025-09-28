@@ -27,15 +27,9 @@ namespace Marcador_de_referencia
             Retorna [ref id="r1" reftype="book"]aaaaa[/ref]
 
         */
-        public static string TagRef(string str, int id, string tipo)
+        public static string TagRef(string str, int id, ERefType type)
         {
-            return "[ref id=\"r" +
-            id +
-            "\" reftype=\"" +
-            tipo +
-            "\"]" +
-            str +
-            "[/ref]";
+            return "[ref id=\"r" + id + "\" reftype=\"" + type.ToString() + "\"]" + str + "[/ref]";
         }
 
         //marca tag Date, recebe como parâmetro o ano
@@ -48,13 +42,13 @@ namespace Marcador_de_referencia
         public static string TagDate(string year)
         {
             string temp = year.Length == 5 ? year.Substring(0, 4) : year;
-            return "[date dateiso=\"" +
-             temp +
-            "0000\" specyear=\"" +
-            year +
-            "\"]" +
-            year +
-            "[/date]";
+            return "[date dateiso=\""
+                + temp
+                + "0000\" specyear=\""
+                + year
+                + "\"]"
+                + year
+                + "[/date]";
         }
 
         //recebe a string com autores e retorna os autores taggeados
@@ -71,13 +65,11 @@ namespace Marcador_de_referencia
             {
                 string[] delimitadores = new string[] { ", ", " and ", "&" };
 
-                string[] autores =
-                    authors
-                        .Split(delimitadores,
-                        StringSplitOptions.RemoveEmptyEntries)
-                        .ToList()
-                        .Select(p => p.Trim())
-                        .ToArray();
+                string[] autores = authors
+                    .Split(delimitadores, StringSplitOptions.RemoveEmptyEntries)
+                    .ToList()
+                    .Select(p => p.Trim())
+                    .ToArray();
 
                 foreach (string autor in autores)
                 {
@@ -95,8 +87,12 @@ namespace Marcador_de_referencia
                         aut = ASplitted[0];
 
                     //Aqui parece um pouco confuso, mas é uma sobreposição da Função TagSimples. Como a tag autor tem tag dentro de tag, a função TagSimples é passada como referência...
-                    string temp =
-                        TagSimples(TagSimples(aut, "surname") + " " + TagSimples(ASplitted[ASplitted.Length - 1], "fname"), "pauthor");
+                    string temp = TagSimples(
+                        TagSimples(aut, "surname")
+                            + " "
+                            + TagSimples(ASplitted[ASplitted.Length - 1], "fname"),
+                        "pauthor"
+                    );
                     str += temp + ", ";
                 }
                 str = str.Substring(0, str.Length - 2);
@@ -120,24 +116,12 @@ namespace Marcador_de_referencia
                 {
                     foreach (string referencia in referenciasTag)
                     {
-                        Byte[] refer =
-                            new UTF8Encoding(true)
-                                .GetBytes(referencia + Environment.NewLine);
+                        Byte[] refer = new UTF8Encoding(true).GetBytes(
+                            referencia + Environment.NewLine
+                        );
                         fs.Write(refer, 0, refer.Length);
                     }
                 }
-
-                // Open the stream and read it back.
-                /* Se quiser ver o que está imprimindo, descomentar aqui
-                using (StreamReader sr = File.OpenText(pathOut))
-                {
-                    string s = "";
-                    while ((s = sr.ReadLine()) != null)
-                    {
-                        Console.WriteLine (s);
-                    }
-                }
-                */
             }
             catch (Exception ex)
             {
@@ -168,9 +152,7 @@ namespace Marcador_de_referencia
                         body = m.Groups[3].ToString();
 
                         string str = "r" + i + " = " + autores + " | " + date;
-                        Byte[] refer =
-                            new UTF8Encoding(true)
-                                .GetBytes(str + Environment.NewLine);
+                        Byte[] refer = new UTF8Encoding(true).GetBytes(str + Environment.NewLine);
                         fs.Write(refer, 0, refer.Length);
                         i++;
                     }
@@ -192,71 +174,6 @@ namespace Marcador_de_referencia
             {
                 Console.WriteLine(ex.ToString());
             }
-        }
-
-        public static string ReferenciaTagSimples(string referencia, int i)
-        {
-            //declarei essas variáveis mesmo sem necessidade só para ficar fácil de entender
-            string autores;
-            string date;
-            string body;
-            string pattern = @"(.*)\((\d{4}\w?)\)(.*)";
-            Regex r = new Regex(pattern, RegexOptions.IgnoreCase);
-            Match m = r.Match(referencia);
-
-            autores = m.Groups[1].ToString();
-            date = m.Groups[2].ToString();
-            body = m.Groups[3].ToString();
-
-            var articleVolPagesRgx = AppRegexes.ArticleVolPages();
-            var extentRgx = AppRegexes.Extent();
-            var pagesRgx = AppRegexes.Pages();
-            var eLocationRgx = AppRegexes.ELocation();
-
-            if (articleVolPagesRgx.IsMatch(body))
-            {
-                Match mx = articleVolPagesRgx.Match(body);
-                body =
-                    mx.Groups[1] +
-                    " " +
-                    TagSimples(mx.Groups[2].ToString(), "volid") +
-                    ":" +
-                    TagSimples(mx.Groups[3].ToString(), "pages");
-            }
-            else if (extentRgx.IsMatch(body))
-            {
-                Match my = extentRgx.Match(body);
-                body =
-                    my.Groups[1] +
-                    " " +
-                    TagSimples(my.Groups[2].ToString(), "extent") +
-                    "p";
-            }
-            else if (pagesRgx.IsMatch(body))
-            {
-                Match mz = pagesRgx.Match(body);
-                body = mz.Groups[1] +
-                " " +
-                TagSimples(mz.Groups[2].ToString(), "pages");
-
-            }
-            else if (eLocationRgx.IsMatch(body))
-            {
-                Match mw = eLocationRgx.Match(body);
-                body = mw.Groups[1] +
-                        " " +
-                        TagSimples(mw.Groups[2].ToString(), "volid") +
-                        ":" +
-                        TagSimples(mw.Groups[3].ToString(), "elocatid");
-            }
-
-            //-----
-            return RefMkp
-                .TagRef(TagAuthors(autores) +
-                TagDate(date) +
-                body,
-                i,
-                "book");
         }
     }
 }
